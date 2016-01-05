@@ -1,3 +1,9 @@
+This is a working copy of my groups's final project of our "Computer Systems 
+Engineering" course, ECE 391. It provides a functional linux operating system
+with features including multiple active tasks, a custom filesystem, and 
+the ability to use multiple terminals for multitasking.
+
+
 ECE391 MP3 - Package contents
 ================================
 
