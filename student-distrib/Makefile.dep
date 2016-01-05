@@ -1,0 +1,22 @@
+boot.o: boot.S multiboot.h x86_desc.h types.h
+idt_linkage.o: idt_linkage.S
+x86_desc.o: x86_desc.S x86_desc.h types.h
+file_system.o: file_system.c file_system.h types.h lib.h pcb.h \
+  systemcall.h i8259.h rtc.h
+i8259.o: i8259.c i8259.h types.h x86_desc.h lib.h idt.h systemcall.h \
+  pcb.h file_system.h rtc.h terminal.h paging.h scheduler.h
+idt.o: idt.c x86_desc.h types.h lib.h idt.h idt_linkage.h i8259.h \
+  systemcall.h pcb.h file_system.h rtc.h
+kernel.o: kernel.c multiboot.h types.h x86_desc.h lib.h i8259.h debug.h \
+  idt.h paging.h terminal.h systemcall.h pcb.h file_system.h rtc.h \
+  scheduler.h
+lib.o: lib.c lib.h types.h
+paging.o: paging.c paging.h types.h lib.h x86_desc.h terminal.h i8259.h \
+  systemcall.h pcb.h file_system.h rtc.h idt.h
+rtc.o: rtc.c rtc.h types.h lib.h i8259.h
+scheduler.o: scheduler.c scheduler.h terminal.h i8259.h types.h lib.h \
+  systemcall.h pcb.h file_system.h rtc.h x86_desc.h idt.h paging.h
+systemcall.o: systemcall.c systemcall.h pcb.h file_system.h types.h lib.h \
+  i8259.h rtc.h x86_desc.h paging.h terminal.h idt.h scheduler.h
+terminal.o: terminal.c terminal.h i8259.h types.h lib.h systemcall.h \
+  pcb.h file_system.h rtc.h x86_desc.h idt.h paging.h scheduler.h

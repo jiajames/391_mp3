@@ -1,0 +1,76 @@
+*********************************************
+|											|
+|					 CP1                    |
+|                       					|
+*********************************************
+
+10/23/15 - Experienced page faults after implementing our paging. This was due to not looking at flags correctly and the file system abstraction. Time to debug: 1 hour
+
+10/24/15 - Keyboard values were wrong because we had used set 2 instead of set 1. Time to debug: 1 hour
+
+10/25/15 - RTC wouldn’t fire. We did not enable IRQ8 on the master PIC which was chaining the RTC IRQ from the slave PIC. Time to debug: 3 hours
+
+*********************************************
+|											|
+|					 CP2                    |
+|                       					|
+*********************************************
+
+10/29/15 - Filesystem Data reads were not reading data reading data correctly. We were trying to read small chunks of data multiple times, rather than reading the data all at once, and had some implementation errors with that. Time to debug: 2 hours
+
+10/30/15 - Terminal would inconsistently scroll upwards (sometimes twice) upon starting a new line at the bottom of the screen. There were a lot of edge cases, such as pressing return at the end of the line at the bottom of the terminal, where our code was interpreting the newline character as a normal character that takes up space. Time to debug: 3 hours
+
+10/31/15 - Numbers would shift to symbols upon pressing Caps lock key. We fixed it with a more complex if-statement. Time to debug: 1 hour
+
+11/1/15 - Pressing backspace at the start of a line would cause us to erase the character at the end of the line (cursor wrapped around). We added logic to detect such a case and to go up a line if there was space and characters before the current spot in the line buffer. Time to debug: 2 hours
+
+11/2/15 - Terminal had the wrong overflow behavior. Ours would allow typing beyond 120 characters, but drop the first character in the buffer each time and shift everything back one space. We thought this was expected behavior but it was not. Time to debug: 30 minutes
+
+*********************************************
+|											|
+|					 CP3                    |
+|                       					|
+*********************************************
+
+11/12/15 - Kernel continued to crash for reasons unknown. Found out that execute was in the incorrect jump table location. Time to debug: 2 hours
+
+11/13/15 - Program would not halt properly. This was because of a wide array of reasons, including incorrect PCB implementation, returning the incorrect status due to incorrect assembly linkage, and incorrect stack switching. First got rid of kernel crashing from calling halt, and then got rid of "program terminated abnormally". Time to debug: 10 hours
+
+11/14/15 - Closing the first open shell would cause the kernel to crash instead of opening another shell. This is because our execute and shell was written to not handle exiting our first program. Time to debug: 2 hours
+
+11/15/15 - Our sysops jumptable for read/write/open/close gave us warnings and just never seemed to go away. We had to set the parameters to exact same parameters as the sysops table, up to the const. Time to debug: 1 hour
+
+Bugs after checkpoint due date:
+- Counter program skipped all values with 9s (9, 19, 90, 91, etc)
+
+*********************************************
+|											|
+|					 CP4                    |
+|                       					|
+*********************************************
+
+11/29/15 - syserr was not functioning properly and would either page fault or crash the kernel on every test case (no test case or even executes/halts correctly). We were unable to fix this by the due date. Time spent debugging: 4 hours
+
+11/29/15 - RTC was slower than expected. We sped it up. TIme spent debugging: 1 hour
+
+Bugs after checkpoint due date:
+- syserr not functioning (see above)
+- fish did not halt correctly and in fact crashed the kernel. Did not notice this until checkpoint demo.
+- no error checking/handling
+
+*********************************************
+|											|
+|					 CP5                    |
+|                       					|
+*********************************************
+
+12/1/15 - syserr and fish bugs (see above) for found. PCB was being overwritten because files were being read into a buffer that was too large to fit on the stack. Forced a memcpy of files straight into program memory. Syserr and fish stopped crashing the kernel afterwards. Time to debug: 2 hours
+
+12/1/15 - syserr tests were not working properly and still caused pagefaults and tests to fail. Fixed the edge cases on system calls. Time to debug: 1 hour
+
+12/3/15 - terminal switch causes pagefault because CR3 and EBP/ESP not saved. Time to debug: 3 hours
+
+12/4/15 - two syserr test 3's were causing page faults. Reason was because ESP was being overwritten by looking at a -1 fd. Time to debug: 15 hours
+
+Bugs after checkpoint due date:
+- Scheduling would cause sporadic issues, including page faults, kernel crashing, video not mapping correctly after task switching.
